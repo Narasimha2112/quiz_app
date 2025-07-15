@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-check-input {
+            margin-top: 0.35rem;
+        }
+
+        .question-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        #timer {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body class="container mt-5">
+    <div class="card p-4 mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="mb-0">Multiple Choice Quiz</h2>
+            <div id="timer">Time Left: 02:00</div>
+        </div>
+        <hr>
+
+        <form method="POST" action="/submit" id="quizForm">
+            {% set checkbox_id = 0 %}
+            {% for question in questions %}
+                <div class="question-card fade-in">
+                    <h5 class="mb-3">Q{{ loop.index }}. {{ question.question }}</h5>
+                    {% for option in question.options %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="checkbox_{{ question.id }}_{{ loop.index0 }}" id="checkbox_{{ checkbox_id }}">
+                            <label class="form-check-label" for="checkbox_{{ checkbox_id }}">{{ option }}</label>
+                        </div>
+                        {% set checkbox_id = checkbox_id + 1 %}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <input type="hidden" name="mapping" value='{{ mapping | tojson }}'>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-success btn-lg mt-3">Submit Quiz</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Link to external JS -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

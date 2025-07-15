@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .correct {
+            background-color: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .incorrect {
+            background-color: #f8d7da;
+            border-left: 5px solid #dc3545;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .answer {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="container mt-5">
+    <div class="card text-center p-4 mb-4">
+        <h2>Quiz Result</h2>
+        <p class="mt-3">You scored <strong>{{ correct }}</strong> out of <strong>{{ total }}</strong>.</p>
+        <a href="/" class="btn btn-primary mt-4">Take Another Quiz</a>
+    </div>
+
+    <h4>Question Review:</h4>
+    {% for item in feedback %}
+        <div class="{{ 'correct' if item.is_correct else 'incorrect' }}">
+            <p><strong>Question {{ loop.index }}:</strong></p>
+            <ul>
+                {% for option in item.options %}
+                    <li class="{% if option == item.correct %}text-success answer{% elif option in item.selected %}text-danger{% endif %}">
+                        {{ option }}
+                        {% if option == item.correct %}(Correct Answer){% endif %}
+                        {% if option in item.selected and option != item.correct %} (Your Selection){% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+</body>
+</html>

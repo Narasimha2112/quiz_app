@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MCQ Quiz App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="container mt-5">
+    <div class="card text-center">
+        <h1 class="mb-4">Welcome to the Quiz!</h1>
+        <form action="/quiz" method="get">
+            <div class="form-group">
+                <label for="category">Select a Category:</label>
+                <select class="form-control w-50 mx-auto" id="category" name="category" required>
+                    <option value="">-- Choose Category --</option>
+                    <option value="9">General Knowledge</option>
+                    <option value="18">Science: Computers</option>
+                    <option value="17">Science & Nature</option>
+                    <option value="23">History</option>
+                    <option value="22">Geography</option>
+                    <option value="21">Sports</option>
+                    <option value="11">Entertainment: Film</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg mt-3">Start Quiz</button>
+        </form>
+    </div>
+</body>
+</html>
